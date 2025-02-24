@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 model = keras.models.load_model("nn.h5")
 
@@ -29,6 +30,7 @@ def predict(x):
     return label0
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
