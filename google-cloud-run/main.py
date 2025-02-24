@@ -10,6 +10,7 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+
 model = keras.models.load_model("nn.h5")
 
 
