@@ -3,3 +3,4 @@ gunicorn
 tensorflow
 numpy
 pillow
+Flask_Cors
