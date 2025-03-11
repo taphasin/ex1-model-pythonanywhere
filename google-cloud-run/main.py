@@ -1,6 +1,7 @@
 import os
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ['TF_FORCE_CPU_ALLOW_GROWTH'] = 'true'
 
 import io
@@ -13,8 +14,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 tf.config.set_visible_devices([], 'GPU')
+physical_devices = tf.config.list_physical_devices('GPU')
+for device in physical_devices:
+    tf.config.experimental.set_memory_growth(device, True)
 
-model = keras.models.load_model("nn.h5")
+with tf.device('/CPU:0'):
+    model = keras.models.load_model("nn.h5")
 
 
 def transform_image(pillow_image):
@@ -58,5 +63,5 @@ def index():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
