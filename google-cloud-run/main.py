@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+# from flask_cors import CORS
 
 # tf.config.set_visible_devices([], 'GPU')
 # physical_devices = tf.config.list_physical_devices('GPU')
@@ -37,8 +37,7 @@ def predict(x):
     return label0
 
 app = Flask(__name__)
-CORS(app)
-
+# CORS(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
