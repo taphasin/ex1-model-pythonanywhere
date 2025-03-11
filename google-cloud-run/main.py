@@ -1,6 +1,7 @@
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ['TF_FORCE_CPU_ALLOW_GROWTH'] = 'true'
 
 import io
 import tensorflow as tf
@@ -11,6 +12,7 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+tf.config.set_visible_devices([], 'GPU')
 
 model = keras.models.load_model("nn.h5")
 
@@ -56,4 +58,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
