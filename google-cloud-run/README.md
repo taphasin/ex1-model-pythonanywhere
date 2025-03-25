@@ -13,8 +13,8 @@
 
 ### 5. Cloud build & deploy
 ```
-gcloud builds submit --tag gcr.io/<project_id>/<function_name>
-gcloud run deploy --image gcr.io/<project_id>/<function_name> --platform managed
+gcloud builds submit --tag gcr.io/hip-cycling-454807-j0/index
+gcloud run deploy --image gcr.io/hip-cycling-454807-j0/index --platform managed
 ```
 
 ### Test

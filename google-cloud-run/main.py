@@ -36,7 +36,7 @@ def predict(x):
     return label0
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=['https://taphasin.github.io'])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
