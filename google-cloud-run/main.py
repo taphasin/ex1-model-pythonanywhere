@@ -2,6 +2,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import io
+import time
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -9,13 +10,9 @@ from PIL import Image
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 
-# tf.config.set_visible_devices([], 'GPU')
-# physical_devices = tf.config.list_physical_devices('GPU')
-# for device in physical_devices:
-#     tf.config.experimental.set_memory_growth(device, True)
 
-# with tf.device('/CPU:0'):
 model = keras.models.load_model("nn.h5")
 
 
@@ -36,7 +33,8 @@ def predict(x):
     return label0
 
 app = Flask(__name__)
-CORS(app, origins=['https://taphasin.github.io'])
+CORS(app, resources={r"/*": {"origins": "*"}})
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -57,6 +55,13 @@ def index():
 
     return "OK"
 
+@socketio.on('Hello')
+def handle_message():
+    for i in range(30):
+        emit('Hello', {'number': i})
+        print(f'Hello from {i}')
+        time.sleep(1)
+
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    socketio.run(app, debug=False)

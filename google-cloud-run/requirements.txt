@@ -4,4 +4,4 @@ tensorflow
 numpy
 pillow
 Flask_Cors
-
+Flask-SocketIO
